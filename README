@@ -1,0 +1,32 @@
+YUI Paginator ui template
+=========================
+
+YUI paginator wiget http://developer.yahoo.com/yui/paginator/ supports 
+custom templates.  This is one.
+
+It provides a <select> html element listing all pages.  Selecting one
+of these will change the page.  This is useful if you've got a lot
+more pages than you are displaying page links.  Say you've got 200 pages
+and 10 page links along the top, you have to keep clicking next to get to 
+page 100.  With this you just select 100 from the drop down.
+
+To add to a template, you'll need to include this, after you've included
+YUI paginator and other things, but before you render your paginator.
+
+
+Use
+
+    Jump to {JumpToPageDropdown}
+
+in the paginator template string.
+
+
+The control will have a class
+
+    yui-pg-jtp-options
+
+and an id:
+    
+		id_base + '-jtp'
+		
+Where id_base is the, well, base id of the paginator.
