@@ -156,4 +156,105 @@ Paginator.ui.JumpToPageDropdown.prototype = {
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * ui Component to generate a total num rows ui
+ *
+ * @namespace YAHOO.widget.Paginator.ui
+ * @class TotalRows
+ * @for YAHOO.widget.Paginator
+ *
+ * @constructor
+ * @param p {Pagintor} Paginator instance to attach to
+ */
+Paginator.ui.TotalRows = function (p) {
+    this.paginator = p;
+
+    p.subscribe('totalRecordsChange',this.update,this,true);
+    p.subscribe('destroy',this.destroy,this,true);
+
+
+};
+
+/**
+ * Decorates Paginator instances with new attributes. Called during
+ * Paginator instantiation.
+ * @method init
+ * @param p {Paginator} Paginator instance to decorate
+ * @static
+ */
+Paginator.ui.TotalRows.init = function (p) {
+
+
+
+    /**
+     * CSS class assigned to the select node
+     * @attribute jumpToPageDropdownClass
+     * @default 'yui-pg-jtp-options'
+     */
+    p.setAttributeConfig('totalRowsClass', {
+        value : 'yui-pg-totalrows',
+        validator : l.isNumber
+    });
+};
+
+Paginator.ui.TotalRows.prototype = {
+
+
+    el: null,
+
+
+    /**
+     * Generate the select and option nodes and returns the select node.
+     * @method render
+     * @param id_base {string} used to create unique ids for generated nodes
+     * @return {HTMLElement}
+     */
+    render : function (id_base) {
+        var p = this.paginator, el;
+        
+        el = document.createElement( 'span' );
+        el.className = p.get('totalRowsClass');
+        el.id        = id_base + '-totalrows';
+        el.title     = 'Total number of records';
+        el.innerHTML = p.getTotalRecords();
+        this.el = el;
+        
+        return el;
+    },
+
+
+    /**
+     * Select the appropriate option if changed.
+     * @method update
+     * @param e {CustomEvent} The calling change event
+     */
+    update : function (e) {
+
+        this.el.innerHTML = this.paginator.getTotalRecords();
+    },
+
+
+
+    /**
+     * Removes the select node and clears event listeners
+     * @method destroy
+     * @private
+     */
+    destroy : function () {
+        this.el.parentNode.removeChild(this.el);
+        this.el = null;
+    }
+};
 })();
