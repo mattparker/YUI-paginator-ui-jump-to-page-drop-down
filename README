@@ -2,10 +2,14 @@ YUI Paginator ui template
 =========================
 
 YUI paginator wiget http://developer.yahoo.com/yui/paginator/ supports 
-custom templates.  This is one.
+custom templates.  This is three.
 
-It provides a <select> html element listing all pages.  Selecting one
-of these will change the page.  This is useful if you've got a lot
+=========================
+JumpToPageDropdown
+=========================
+
+JumpToPageDropdown provides a <select> html element listing all pages.  
+Selecting one of these will change the page.  This is useful if you've got a lot
 more pages than you are displaying page links.  Say you've got 200 pages
 and 10 page links along the top, you have to keep clicking next to get to 
 page 100.  With this you just select 100 from the drop down.
@@ -30,3 +34,45 @@ and an id:
 		id_base + '-jtp'
 		
 Where id_base is the, well, base id of the paginator.
+
+
+=========================
+RowsPerPageDropdownAll
+=========================
+
+A simple extension of RowsPerPageDropdown that lets you add an 'all' option
+to the rowsPerPage options:
+
+Use 
+
+   Show {RowsPerPageDropdownAll} rows per page
+   
+in the paginator template string, and in the config for the Paginator use
+
+   rowsPerPageOptions : [5,10,25,50,"all"]
+   
+It's a while since I did this, but I think this is most useful with server-side
+pagination where you know the total number of rows but they're not all on 
+the page.
+
+This also adds a property and some simple methods to the Paginator which may
+be useful when using it.
+
+
+=========================
+TotalRows
+=========================
+
+Simplest of them all: how many rows are there in total?!
+
+Renders as a span with class yui-pg-totalrows and the number.  
+
+Use  
+
+  There are {TotalRows} records in total.
+
+
+
+
+
+

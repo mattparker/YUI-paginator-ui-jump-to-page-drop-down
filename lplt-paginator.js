@@ -162,6 +162,91 @@ Paginator.ui.JumpToPageDropdown.prototype = {
 
 
 
+/**
+ * ui component to allow selection of all rows
+ * Extends RowsPerPageDropdown
+ *
+ * If you set your rowsPerPage to something like 
+ * rowsPerPageOptions : [5,10,25,50,"all"]
+ * this will allow select all.
+ */
+ 
+ 
+ /**
+  * First we need an extra method on the Paginator itself
+  */
+ 
+ /**
+  * @var whether all rows are currently showing
+  */
+ Paginator.prototype._showingAllRows=false;
+
+ /**
+  * Setter
+  */
+ Paginator.prototype.setShowingAllRows=function(d){
+    if(YAHOO.lang.isBoolean(d)){
+       this._showingAllRows=d;
+    }
+ };
+
+ /**
+  * Getter
+  */
+ Paginator.prototype.getShowingAllRows=function(){
+    return this._showingAllRows;
+ };
+ 
+
+ Paginator.prototype.getRowsPerPageAll=function(d){
+   if(d===true && this.getShowingAllRows()===true){
+     return"all";
+   }
+   return this.getRowsPerPage();
+ }; 
+ 
+ 
+ 
+ /**
+  * Now the paginator ui itself
+  *
+  */
+ 
+ Paginator.ui.RowsPerPageDropdownAll = function(p){
+    
+    Paginator.ui.RowsPerPageDropdownAll.superclass.constructor.call(this,p);
+    p.subscribe("rowsPerPageChange",this.updatePaginatorShowingAllRows,this,true);
+ };
+
+
+ /**
+  * And extend:
+  */
+ l.extend(Paginator.ui.RowsPerPageDropdownAll,
+          Paginator.ui.RowsPerPageDropdown,
+          {
+            _allSelected:false,
+            
+            updatePaginatorShowingAllRows:function(d,e){
+               e.paginator.setShowingAllRows(this.getAllSelected());
+            },
+            
+            onChange:function(d){
+               if(this.select.options[this.select.selectedIndex].text=="all"){
+                  this._allSelected=true;
+               } else {
+                  this._allSelected=false;
+               }
+            
+               Paginator.ui.RowsPerPageDropdownAll.superclass.onChange.call(this,d);
+            
+            },
+            
+            getAllSelected:function(){
+              return this._allSelected;
+            }
+  }
+ );
 
 
 
